@@ -1,0 +1,10 @@
+---
+title: "About this website"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    theme: cerulean
+---
+
+This website was coded by Rene Chi using Rmakrdown to do the work
