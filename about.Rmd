@@ -2,9 +2,9 @@
 title: "About this website"
 output: 
   html_document:
-    toc: true
-    toc_float: true
     theme: cerulean
 ---
 
-This website was coded by Rene Chi using Rmakrdown to do the work
+This website was coded by Rene Chi using Rmarkdown to do the work
+
+Go back to the [homepage](index.html)
