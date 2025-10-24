@@ -8,74 +8,83 @@ output: html_document
 ```{r setup, message = FALSE}
 library(tidyverse)
 library(plotly)
+library(ggplot2)
 library(p8105.datasets)
 ```
 
-Lets load the dataset
+Loading the data
 
 ```{r}
-data("nyc_airbnb")
-
-nyc_airbnb =
-  nyc_airbnb |>
-  mutate(
-    rating = review_scores_location / 2
-  ) |> 
-  select(
-    neighbourhood_group, neighbourhood, rating, price, room_type,
-    lat, long
-  ) |> 
-  filter(
-    neighbourhood_group == "Manhattan",
-    room_type == "Entire home/apt",
-    price <= 500,
-    price >= 100
-  )
+data("instacart")
 ```
 
-Lets make a scatterplot!! But interactive this time.
+Draw a barplot
 
 ```{r}
-nyc_airbnb |> 
-  mutate(label = str_c("Price: $", price, "\nRating: ", rating)) |> 
+instacart |> 
+  count(aisle, sort = TRUE) |> 
+  filter(n > 10000) |> 
+  mutate(aisle = fct_reorder(aisle, n)) |> 
   plot_ly(
-    x = ~lat, y = ~long, color = ~price,
-    text = ~label,
-    type = "scatter", mode = "markers", alpha = 0.5
-  )
-```
-
-Lets make a boxplot
-
-```{r}
-nyc_airbnb |> 
-  mutate(
-    neighbourhood = fct_reorder(neighbourhood, price)
-         ) |> 
-  plot_ly(
-    x = ~neighbourhood, y = ~price, color = ~neighbourhood,
-    type = "box", colors = "viridis"
-  )
-```
-
-Maybe barcharts next?
-
-```{r}
-nyc_airbnb |> 
-  count(neighbourhood) |> 
-  mutate(
-    neighbourhood = fct_reorder(neighbourhood, n)
+    x = ~ n,
+    y = ~ aisle,
+    type = "bar",
+    orientation = "h",
+    color = ~ aisle,
+    colors = "viridis"
   ) |> 
-  plot_ly(x = ~neighbourhood, y = ~n,
-          type = "bar")
+  layout(
+    title = "Number of items ordered in each aisle (aisle ordered items > 10,000)",
+    xaxis = list(title = "Items ordered"),
+    yaxis = list(title = "")
+  )
 ```
 
-## ggplotly
+Draw a boxplot 
 
 ```{r}
-ggp_scatterplot = 
-  nyc_airbnb |> 
-  ggplot(aes(x = lat, y = long, color = price)) +
-  geom_point()
+box_ggplot =
+  instacart |> 
+  filter(department == "dairy eggs") |> 
+  mutate(aisle = fct_reorder(aisle, order_hour_of_day)) |> 
+  ggplot(aes(x = aisle, y = order_hour_of_day, fill = aisle)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Boxplot of Dairy and eggs department \nWhen are they being ordered the most?",
+    x = "",
+    y = "hour of the day"
+  )
+  
+ggplotly(box_ggplot)  
+```
+
+
+Draw a line plot
+
+```{r}
+instacart |> 
+  filter(product_name %in% c("Pink Lady Apples", "Coffee Ice Cream")) |> 
+  group_by(product_name, order_dow) |>
+  summarize(mean_hour = round(mean(order_hour_of_day, na.rm = TRUE),digit = 2),
+            .groups = "drop") |>
+  mutate(order_dow = recode(order_dow,
+                            `0` = "Sun", `1` = "Mon", `2` = "Tue",
+                            `3` = "Wed", `4` = "Thu", `5` = "Fri", `6` = "Sat")) |> 
+  arrange(product_name, order_dow) |> 
+  plot_ly(
+  x = ~ order_dow,
+  y = ~ mean_hour,
+  color = ~ product_name,        
+  type = 'scatter',
+  mode = 'lines+markers',      
+  colors = "Dark2"              
+) |> 
+  layout(
+    title = "Average order hour by day of week",
+    xaxis = list(title = "Day of Week"),
+    yaxis = list(title = "Average order hour"),
+    legend = list(title = list(text = "Product"))
+  )
 ```
 

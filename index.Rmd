@@ -1,26 +1,20 @@
 ---
-title: "My awesome website"
+title: "Rene Chi's personal website"
 output: 
   html_document:
     toc: true
     toc_float: true
-    theme: cerulean
+    theme: flatly
 ---
 
-# This is Rene's awesome website
+# Home page
 
-![](https://media.giphy.com/media/drXGoW1iudhKw/giphy.gif)
+![](https://media.tenor.com/o656qFKDzeUAAAAM/rick-astley-never-gonna-give-you-up.gif)
 
-You can do everything ahhahahaha
+I am glad that you are visiting my personal website! Enjoy the content!
 
-That means you can add text
+Learn more about me! [here](about.html)
 
-This website is an example coming from [P8105](https://p8105.com/index.html).
+Check my plotting codes! [plots](plotly.html)
 
-We are making websites today! Learn more about this site [here](about.html)
-
-I also use [google](https://www.google.com/) a ton for data science
-
-To show that you can just use RMD like normal, check out [this page](plots.html) with plots.
-
-For changing website background theme go to [bootswatch](https://bootswatch.com/)
+Observe my flexdashboard plots! [dashboard](dashboard.html)
