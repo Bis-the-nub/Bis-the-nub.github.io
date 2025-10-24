@@ -23,7 +23,7 @@ data("instacart")
 Column {data-width=650}
 -----------------------------------------------------------------------
 
-### Chart A
+### Boxplot of Dairy and eggs department being ordered in a day span
 
 ```{r}
 box_ggplot =
@@ -32,9 +32,9 @@ box_ggplot =
   mutate(aisle = fct_reorder(aisle, order_hour_of_day)) |> 
   ggplot(aes(x = aisle, y = order_hour_of_day, fill = aisle)) +
   geom_boxplot() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  theme(axis.text.x = element_text(angle = 30, hjust = 1)) +
   labs(
-    title = "Boxplot of Dairy and eggs department \nWhen are they being ordered the most?",
+    title = "",
     x = "",
     y = "hour of the day"
   )
@@ -45,7 +45,7 @@ ggplotly(box_ggplot)
 Column {data-width=350}
 -----------------------------------------------------------------------
 
-### Chart B
+### Number of items ordered in each aisle (aisle ordered items > 10,000)
 
 ```{r}
 instacart |> 
@@ -61,13 +61,13 @@ instacart |>
     colors = "viridis"
   ) |> 
   layout(
-    title = "Number of items ordered in each aisle (aisle ordered items > 10,000)",
+    title = "",
     xaxis = list(title = "Items ordered"),
     yaxis = list(title = "")
   )
 ```
 
-### Chart C
+### Average order hour by day of week
 
 ```{r}
 instacart |> 
@@ -88,7 +88,7 @@ instacart |>
   colors = "Dark2"              
 ) |> 
   layout(
-    title = "Average order hour by day of week",
+    title = "",
     xaxis = list(title = "Day of Week"),
     yaxis = list(title = "Average order hour"),
     legend = list(title = list(text = "Product"))
