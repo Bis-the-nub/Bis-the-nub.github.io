@@ -26,6 +26,28 @@ Column {data-width=650}
 ### Chart A
 
 ```{r}
+box_ggplot =
+  instacart |> 
+  filter(department == "dairy eggs") |> 
+  mutate(aisle = fct_reorder(aisle, order_hour_of_day)) |> 
+  ggplot(aes(x = aisle, y = order_hour_of_day, fill = aisle)) +
+  geom_boxplot() +
+  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
+  labs(
+    title = "Boxplot of Dairy and eggs department \nWhen are they being ordered the most?",
+    x = "",
+    y = "hour of the day"
+  )
+  
+ggplotly(box_ggplot) 
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r}
 instacart |> 
   count(aisle, sort = TRUE) |> 
   filter(n > 10000) |> 
@@ -43,28 +65,6 @@ instacart |>
     xaxis = list(title = "Items ordered"),
     yaxis = list(title = "")
   )
-```
-
-Column {data-width=350}
------------------------------------------------------------------------
-
-### Chart B
-
-```{r}
-box_ggplot =
-  instacart |> 
-  filter(department == "dairy eggs") |> 
-  mutate(aisle = fct_reorder(aisle, order_hour_of_day)) |> 
-  ggplot(aes(x = aisle, y = order_hour_of_day, fill = aisle)) +
-  geom_boxplot() +
-  theme(axis.text.x = element_text(angle = 90, hjust = 1)) +
-  labs(
-    title = "Boxplot of Dairy and eggs department \nWhen are they being ordered the most?",
-    x = "",
-    y = "hour of the day"
-  )
-  
-ggplotly(box_ggplot) 
 ```
 
 ### Chart C
